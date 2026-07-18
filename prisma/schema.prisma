@@ -6,3 +6,133 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// ======================================================
+// ENUMS
+// ======================================================
+
+enum UserRole {
+  LANDLORD
+  TENANT
+}
+
+enum FlatStatus {
+  VACANT
+  OCCUPIED
+  MAINTENANCE
+}
+
+enum BuildingStatus {
+  ACTIVE
+  INACTIVE
+}
+
+// ======================================================
+// USER
+// ======================================================
+
+model User {
+  id String @id @default(cuid())
+
+  name         String
+  email        String @unique
+  passwordHash String
+
+  phone String?
+
+  role UserRole
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  ownedBuildings Building[] @relation("BuildingOwner")
+
+  @@index([email])
+  @@index([role])
+}
+
+// ======================================================
+// BUILDING
+// ======================================================
+
+model Building {
+  id String @id @default(cuid())
+
+  name        String
+  address     String
+  description String?
+
+  imageUrl String?
+
+  status BuildingStatus @default(ACTIVE)
+
+  ownerId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  owner User @relation("BuildingOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  floors Floor[]
+
+  @@index([ownerId])
+  @@index([status])
+}
+
+// ======================================================
+// FLOOR
+// ======================================================
+
+model Floor {
+  id String @id @default(cuid())
+
+  floorNumber Int
+
+  name String?
+
+  buildingId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  building Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  flats Flat[]
+
+  @@unique([buildingId, floorNumber])
+  @@index([buildingId])
+}
+
+// ======================================================
+// FLAT
+// ======================================================
+
+model Flat {
+  id String @id @default(cuid())
+
+  flatNumber String
+
+  bedrooms Int
+
+  bathrooms Int
+
+  monthlyRent Decimal @db.Decimal(10, 2)
+
+  status FlatStatus @default(VACANT)
+
+  floorId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  floor Floor @relation(fields: [floorId], references: [id], onDelete: Cascade)
+
+  @@unique([floorId, flatNumber])
+  @@index([floorId])
+  @@index([status])
+}
