@@ -27,6 +27,33 @@ enum BuildingStatus {
   INACTIVE
 }
 
+enum RentStatus {
+  PENDING
+  PARTIAL
+  PAID
+  OVERDUE
+}
+
+enum UtilityType {
+  ELECTRICITY
+  GAS
+  WATER
+  INTERNET
+  SECURITY
+  OTHER
+}
+
+enum PaymentType {
+  RENT
+  UTILITY
+}
+
+enum NoticeAudience {
+  ALL
+  TENANTS
+  LANDLORDS
+}
+
 // ======================================================
 // USER
 // ======================================================
@@ -38,9 +65,9 @@ model User {
   email        String @unique
   passwordHash String
 
-  phone String?
-
-  role UserRole
+  phone         String?
+  tenantProfile TenantProfile?
+  role          UserRole
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -48,6 +75,8 @@ model User {
 
   // Relations
   ownedBuildings Building[] @relation("BuildingOwner")
+
+  activityLogs ActivityLog[]
 
   @@index([email])
   @@index([role])
@@ -62,6 +91,9 @@ model Building {
 
   name        String
   address     String
+  city        String
+  postcode    String?
+  country     String  @default("Bangladesh")
   description String?
 
   imageUrl String?
@@ -76,7 +108,9 @@ model Building {
 
   owner User @relation("BuildingOwner", fields: [ownerId], references: [id], onDelete: Cascade)
 
-  floors Floor[]
+  floors       Floor[]
+  joinRequests JoinRequest[]
+  notices      Notice[]
 
   @@index([ownerId])
   @@index([status])
@@ -132,7 +166,244 @@ model Flat {
 
   floor Floor @relation(fields: [floorId], references: [id], onDelete: Cascade)
 
+  leases       Lease[]
+  joinRequests JoinRequest[]
+
   @@unique([floorId, flatNumber])
   @@index([floorId])
   @@index([status])
+}
+
+// ======================================================
+// ENUMS
+// ======================================================
+
+enum LeaseStatus {
+  ACTIVE
+  ENDED
+  TERMINATED
+}
+
+enum JoinRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ======================================================
+// TENANT PROFILE
+// ======================================================
+
+model TenantProfile {
+  id String @id @default(cuid())
+
+  userId String @unique
+
+  occupation       String?
+  nationalId       String? @unique
+  emergencyContact String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  leases       Lease[]
+  joinRequests JoinRequest[]
+}
+
+// ======================================================
+// LEASE
+// ======================================================
+
+model Lease {
+  id String @id @default(cuid())
+
+  tenantId String
+  flatId   String
+
+  startDate DateTime
+  endDate   DateTime?
+
+  monthlyRent Decimal  @db.Decimal(10, 2)
+  deposit     Decimal? @db.Decimal(10, 2)
+
+  status LeaseStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant TenantProfile @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  flat   Flat          @relation(fields: [flatId], references: [id], onDelete: Cascade)
+
+  rents        Rent[]
+  utilityBills UtilityBill[]
+
+  @@index([tenantId])
+  @@index([flatId])
+  @@index([status])
+}
+
+// ======================================================
+// JOIN REQUEST
+// ======================================================
+
+model JoinRequest {
+  id String @id @default(cuid())
+
+  tenantId   String
+  buildingId String
+  flatId     String
+
+  message String?
+
+  status JoinRequestStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant   TenantProfile @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  building Building      @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  flat     Flat          @relation(fields: [flatId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([buildingId])
+  @@index([flatId])
+  @@index([status])
+}
+
+// ======================================================
+// RENT
+// ======================================================
+
+model Rent {
+  id String @id @default(cuid())
+
+  leaseId String
+
+  month Int
+  year  Int
+
+  amount Decimal @db.Decimal(10, 2)
+
+  dueDate DateTime
+
+  status RentStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lease Lease @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  payments PaymentHistory[]
+
+  @@unique([leaseId, month, year])
+  @@index([leaseId])
+  @@index([status])
+}
+
+// ======================================================
+// UTILITY BILL
+// ======================================================
+
+model UtilityBill {
+  id String @id @default(cuid())
+
+  leaseId String
+
+  type UtilityType
+
+  month Int
+  year  Int
+
+  amount Decimal @db.Decimal(10, 2)
+
+  dueDate DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lease Lease @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  payments PaymentHistory[]
+
+  @@unique([leaseId, type, month, year])
+  @@index([leaseId])
+}
+
+// ======================================================
+// PAYMENT HISTORY
+// ======================================================
+
+model PaymentHistory {
+  id String @id @default(cuid())
+
+  paymentType PaymentType
+
+  rentId        String?
+  utilityBillId String?
+
+  amount Decimal @db.Decimal(10, 2)
+
+  paidAt DateTime @default(now())
+
+  transactionRef String?
+
+  createdAt DateTime @default(now())
+
+  rent        Rent?        @relation(fields: [rentId], references: [id], onDelete: Cascade)
+  utilityBill UtilityBill? @relation(fields: [utilityBillId], references: [id], onDelete: Cascade)
+
+  @@index([rentId])
+  @@index([utilityBillId])
+  @@index([paymentType])
+}
+
+// ======================================================
+// NOTICE
+// ======================================================
+
+model Notice {
+  id String @id @default(cuid())
+
+  buildingId String
+
+  title String
+
+  content   String
+  expiresAt DateTime?
+
+  audience NoticeAudience @default(ALL)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  building Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@index([buildingId])
+}
+
+// ======================================================
+// ACTIVITY LOG
+// ======================================================
+
+model ActivityLog {
+  id String @id @default(cuid())
+
+  userId String
+
+  action String
+
+  entity String
+
+  entityId String?
+
+  description String?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
 }
