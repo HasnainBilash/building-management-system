@@ -1028,6 +1028,17 @@ Avoid forcing users back to list pages unnecessarily.
 
 The Details page should act as the hub for each entity.
 
+The full navigation specification — breadcrumb trails, back-button
+destinations, and a page-by-page arrival/action/exit map — lives in
+
+```
+docs/06_NAVIGATION_UX.md
+```
+
+Every nested page should implement both a `Breadcrumbs` trail and a
+`BackLink`, per that document. This was retrofitted onto the Floors module
+after the fact; future modules should implement it from the start.
+
 ---
 
 # Folder Naming
@@ -1575,6 +1586,8 @@ The Building Management System follows a modular, feature-oriented architecture 
 - Reusable UI components
 - Feature-specific business components
 - Consistent CRUD patterns
+- Breadcrumb + back-button navigation on every nested page
 - Documentation-first development
 
-The Building module serves as the reference implementation for all future modules.
+The Building and Floors modules serve as the reference implementation for
+all future modules.

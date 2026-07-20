@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
 
 import { getBuilding } from "@/actions/building/get-building";
-import { updateBuilding } from "@/actions/building/update-building";
+import { createFloor } from "@/actions/floor/create-floor";
+import { createFloorsBulk } from "@/actions/floor/create-floors-bulk";
 
-import { BuildingForm } from "@/components/building/building-form";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { BackLink } from "@/components/ui/back-link";
+import { FloorCreateForm } from "@/components/floor/floor-create-form";
 
 type PageProps = {
   params: Promise<{
@@ -13,9 +14,7 @@ type PageProps = {
   }>;
 };
 
-export default async function EditBuildingPage({
-  params,
-}: PageProps) {
+export default async function NewFloorPage({ params }: PageProps) {
   const { id } = await params;
 
   const building = await getBuilding(id);
@@ -24,10 +23,16 @@ export default async function EditBuildingPage({
     notFound();
   }
 
-  async function updateAction(formData: FormData) {
+  async function createAction(formData: FormData) {
     "use server";
 
-    await updateBuilding(id, formData);
+    await createFloor(id, formData);
+  }
+
+  async function bulkAction(formData: FormData) {
+    "use server";
+
+    await createFloorsBulk(id, formData);
   }
 
   return (
@@ -38,37 +43,28 @@ export default async function EditBuildingPage({
             { label: "Dashboard", href: "/dashboard" },
             { label: "Buildings", href: "/dashboard/buildings" },
             { label: building.name, href: `/dashboard/buildings/${id}` },
-            { label: "Edit" },
+            { label: "Floors", href: `/dashboard/buildings/${id}/floors` },
+            { label: "Add Floor" },
           ]}
         />
 
         <BackLink
-          href={`/dashboard/buildings/${id}`}
-          label={building.name}
+          href={`/dashboard/buildings/${id}/floors`}
+          label="Floors"
         />
       </div>
 
       <div>
-        <h1 className="text-3xl font-bold">
-          Edit Building
-        </h1>
+        <h1 className="text-3xl font-bold">Add Floor</h1>
 
         <p className="text-muted-foreground">
-          Update the building information.
+          Add one floor, or create several at once, to {building.name}.
         </p>
       </div>
 
-      <BuildingForm
-        action={updateAction}
-        submitText="Save Changes"
-        defaultValues={{
-          name: building.name,
-          address: building.address,
-          city: building.city,
-          postcode: building.postcode,
-          country: building.country,
-          description: building.description,
-        }}
+      <FloorCreateForm
+        singleAction={createAction}
+        bulkAction={bulkAction}
       />
     </div>
   );

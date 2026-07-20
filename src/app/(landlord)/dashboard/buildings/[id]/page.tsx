@@ -10,6 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { BackLink } from "@/components/ui/back-link";
 
 type PageProps = {
   params: Promise<{
@@ -30,6 +32,17 @@ export default async function BuildingDetailsPage({
 
   return (
     <div className="space-y-6">
+      <div className="space-y-3">
+        <Breadcrumbs
+          items={[
+            { label: "Dashboard", href: "/dashboard" },
+            { label: "Buildings", href: "/dashboard/buildings" },
+            { label: building.name },
+          ]}
+        />
+
+        <BackLink href="/dashboard/buildings" label="Buildings" />
+      </div>
 
       <div className="flex items-center justify-between">
         <div>
@@ -43,6 +56,12 @@ export default async function BuildingDetailsPage({
         </div>
 
         <div className="flex gap-3">
+          <Link href={`/dashboard/buildings/${building.id}/floors`}>
+            <Button variant="outline">
+              Manage Floors
+            </Button>
+          </Link>
+
           <Link href={`/dashboard/buildings/${building.id}/edit`}>
             <Button>
               Edit Building
@@ -76,9 +95,12 @@ export default async function BuildingDetailsPage({
               Floors
             </p>
 
-            <p className="font-semibold">
+            <Link
+              href={`/dashboard/buildings/${building.id}/floors`}
+              className="font-semibold hover:underline"
+            >
               {building.floors.length}
-            </p>
+            </Link>
           </div>
 
           <div>

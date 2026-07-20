@@ -26,7 +26,7 @@ main
 
 ## Current Sprint
 
-Sprint 3 — Floors Module
+Sprint 4 — Flats Module
 
 ---
 
@@ -44,6 +44,10 @@ Sprint 3 — Floors Module
 
 ✅ Complete
 
+## Floors Module
+
+✅ Complete
+
 ## Architecture
 
 ✅ Architecture v2.0 (Frozen)
@@ -54,7 +58,7 @@ Sprint 3 — Floors Module
 
 ## Current Development
 
-🚧 Floors Module
+🚧 Flats Module
 
 ---
 
@@ -197,11 +201,29 @@ Architecture v2.0 is considered frozen unless intentionally revised.
 - Prisma Integration
 - Zod Validation
 
+### Floors Module
+
+- Create Floor
+- Bulk Create Floors
+- Floor List
+- Floor Details
+- Edit Floor
+- Soft Delete Floor
+- Building Relationship
+- Ownership Validation (via Building)
+- Floor Ordering
+- Floor Statistics
+- Reusable Floor Form
+- Server Actions
+- Prisma Integration
+- Zod Validation
+- Breadcrumb Navigation
+- Back Navigation
+
 ---
 
 # Planned Modules
 
-- Floors
 - Flats
 - Tenant Profiles
 - Join Requests
@@ -308,6 +330,22 @@ Protected
 /dashboard/buildings/[id]/edit
 ```
 
+```
+/dashboard/buildings/[id]/floors
+```
+
+```
+/dashboard/buildings/[id]/floors/new
+```
+
+```
+/dashboard/buildings/[id]/floors/[floorId]
+```
+
+```
+/dashboard/buildings/[id]/floors/[floorId]/edit
+```
+
 Authentication
 
 ```
@@ -380,10 +418,10 @@ Project history
 Coding conventions
 
 ```
-06_MODULE_TEMPLATE.md
+06_NAVIGATION_UX.md
 ```
 
-Blueprint for future modules
+Navigation and breadcrumb design
 
 ---
 
@@ -436,9 +474,9 @@ Correctness is preferred over speed.
 
 # Next Goal
 
-Implement the Floors Module following the established architecture.
+Implement the Flats Module following the established architecture.
 
-Future modules should reuse the same architecture and development patterns introduced by the Building Module.
+Future modules should reuse the same architecture and development patterns introduced by the Building and Floors Modules.
 
 ---
 

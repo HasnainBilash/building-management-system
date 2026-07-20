@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+const disabledLinkClass =
+  "flex items-center justify-between rounded-lg px-3 py-2 text-muted-foreground/50 cursor-not-allowed select-none";
+
 export function AppSidebar() {
   return (
     <aside className="w-64 border-r bg-background">
@@ -25,26 +28,20 @@ export function AppSidebar() {
           Buildings
         </Link>
 
-        <Link
-          href="/dashboard/flats"
-          className="rounded-lg px-3 py-2 hover:bg-muted"
-        >
+        <span className={disabledLinkClass} aria-disabled="true">
           Flats
-        </Link>
+          <span className="text-xs">Soon</span>
+        </span>
 
-        <Link
-          href="/dashboard/tenants"
-          className="rounded-lg px-3 py-2 hover:bg-muted"
-        >
+        <span className={disabledLinkClass} aria-disabled="true">
           Tenants
-        </Link>
+          <span className="text-xs">Soon</span>
+        </span>
 
-        <Link
-          href="/dashboard/payments"
-          className="rounded-lg px-3 py-2 hover:bg-muted"
-        >
+        <span className={disabledLinkClass} aria-disabled="true">
           Payments
-        </Link>
+          <span className="text-xs">Soon</span>
+        </span>
 
       </nav>
     </aside>

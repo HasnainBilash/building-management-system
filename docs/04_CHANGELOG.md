@@ -10,7 +10,6 @@ The format loosely follows Keep a Changelog while remaining focused on project d
 
 ## Planned
 
-- Floors Module
 - Flats Module
 - Tenant Profiles
 - Join Requests
@@ -21,6 +20,49 @@ The format loosely follows Keep a Changelog while remaining focused on project d
 - Notices
 - Reports
 - Analytics
+
+---
+
+# [v2.1.0] - Floors Module + Navigation
+
+## Added
+
+### Floors Module
+
+- Create Floor
+- Bulk Create Floors (range-based, `skipDuplicates` safe)
+- Floor List (ordered by Floor Number)
+- Floor Details (with Flat status statistics: occupied / vacant / maintenance)
+- Edit Floor
+- Soft Delete Floor
+- Building Relationship (ownership validated via Building, not a direct `ownerId`)
+- Server Action CRUD Architecture, matching the Building module
+- Reusable Floor Form (Single / Multiple toggle, shared Create + Bulk Create UI)
+
+---
+
+### Navigation
+
+- `Breadcrumbs` component — full-path navigation on every nested page
+- `BackLink` component — one-step back navigation on every nested page
+- Fixed Floor Details back navigation (previously skipped the Floors List level)
+- Disabled dead sidebar links (Flats, Tenants, Payments) pending those modules being built
+
+---
+
+### Documentation
+
+Added
+
+```
+06_NAVIGATION_UX.md
+```
+
+Updated
+
+- Project Memory
+- Roadmap
+- Database (clarified schema-complete vs application-complete models)
 
 ---
 

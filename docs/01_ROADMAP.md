@@ -83,18 +83,21 @@ Features
 
 Status
 
-🚧 Current Sprint
+✅ Completed
 
-Planned Features
+Features
 
 - Floor List
 - Create Floor
+- Bulk Create Floors (range-based, duplicate-safe)
 - Floor Details
 - Edit Floor
 - Soft Delete
 - Building Relationship
 - Floor Ordering
 - Floor Statistics
+- Breadcrumb Navigation
+- Back Navigation
 
 ---
 
@@ -102,7 +105,7 @@ Planned Features
 
 Status
 
-⬜ Planned
+🚧 Current Sprint
 
 Planned Features
 
@@ -179,6 +182,10 @@ Features
 - Due Dates
 - Outstanding Balance
 
+Note
+
+Should support surfacing which flats currently have unpaid or overdue rent, feeding into Phase 6 Reports.
+
 ---
 
 ### Utility Bills
@@ -224,6 +231,10 @@ Features
 - Building Notices
 - Floor Notices
 - Scheduled Notices
+
+Note
+
+Should support surfacing active notices per building/floor at a glance, feeding into Phase 6 Reports.
 
 ---
 
@@ -295,13 +306,13 @@ A module is considered complete only when all of the above are implemented and d
 
 Current Sprint
 
-🚧 Floors Module
+🚧 Flats Module
 
 Goal
 
-Introduce hierarchical property management by allowing each Building to contain multiple Floors.
+Introduce Flats beneath Floors, including occupancy status and rent information, so individual rentable units can be tracked.
 
-The Floors module should follow the same architecture and conventions established by the Building module.
+The Flats module should follow the same architecture and conventions established by the Building and Floors modules.
 
 ---
 

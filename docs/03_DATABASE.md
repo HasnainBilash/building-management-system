@@ -56,37 +56,41 @@ Every model fits naturally into this hierarchy.
 
 # Current Models
 
-```
-
-User
-
-↓
-
-Building
-
-↓
-
-Floor
-
-↓
-
-Flat
-
-↓
-
-Lease
-
-↓
-
-Rent
-
-↓
-
-PaymentHistory
+Every model below exists in the Prisma schema. Application-layer status
+(Server Actions, routes, components) varies by model — see
+`00_PROJECT_MEMORY.md` → Current Features for what's actually wired up.
 
 ```
 
-Additional models
+User                    (schema + application complete)
+
+↓
+
+Building                (schema + application complete)
+
+↓
+
+Floor                   (schema + application complete)
+
+↓
+
+Flat                    (schema only — not yet built)
+
+↓
+
+Lease                   (schema only — not yet built)
+
+↓
+
+Rent                    (schema only — not yet built)
+
+↓
+
+PaymentHistory          (schema only — not yet built)
+
+```
+
+Additional models (schema only — not yet built)
 
 ```
 
