@@ -1,17 +1,50 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
+import bcrypt from "bcryptjs";
+
+import { prisma } from "@/lib/prisma";
+
 export default {
   providers: [
     Credentials({
       name: "Credentials",
+
       credentials: {
         email: {},
         password: {},
       },
-      async authorize() {
-        // We'll implement this in the next step.
-        return null;
+
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email as string,
+          },
+        });
+
+        if (!user) {
+          return null;
+        }
+
+        const passwordMatch = await bcrypt.compare(
+          credentials.password as string,
+          user.passwordHash
+        );
+
+        if (!passwordMatch) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
       },
     }),
   ],
@@ -22,5 +55,27 @@ export default {
 
   pages: {
     signIn: "/login",
+  },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub!;
+        session.user.role = token.role as "LANDLORD" | "TENANT";
+      }
+
+      return session;
+    },
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    }
   },
 } satisfies NextAuthConfig;

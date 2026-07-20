@@ -1,36 +1,177 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Building Management System
 
-## Getting Started
+A modern, production-ready Building Management System built with Next.js, Prisma, PostgreSQL and Auth.js.
 
-First, run the development server:
+The system allows landlords to manage buildings, floors, flats, tenants, leases, rent collection, utility bills and notices through a secure web application.
+
+---
+
+## Project Status
+
+Current Stage
+
+🟢 Active Development
+
+Current Sprint
+
+Sprint 2 — Building Module
+
+---
+
+## Features
+
+### Authentication
+
+- User Registration
+- User Login
+- Password Hashing (bcrypt)
+- JWT Authentication
+- Protected Routes
+- Session Management
+- Role-based Authentication
+- Server Actions
+- Zod Validation
+
+### Building Management
+
+- Building CRUD *(In Progress)*
+- Floor Management *(Planned)*
+- Flat Management *(Planned)*
+
+### Tenant Management
+
+- Tenant Profiles *(Planned)*
+- Join Requests *(Planned)*
+- Lease Management *(Planned)*
+
+### Finance
+
+- Rent Management *(Planned)*
+- Utility Bills *(Planned)*
+- Payment History *(Planned)*
+
+### Communication
+
+- Notices *(Planned)*
+
+### Monitoring
+
+- Activity Logs *(Planned)*
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS v4
+
+### Backend
+
+- Server Actions
+- Auth.js v5
+
+### Database
+
+- PostgreSQL
+- Prisma ORM
+
+### Validation
+
+- Zod
+
+### Authentication
+
+- Auth.js
+- JWT
+- bcrypt
+
+---
+
+## Project Structure
+
+See
+
+```
+
+docs/02_ARCHITECTURE.md
+
+```
+
+for the complete project architecture.
+
+---
+
+## Documentation
+
+Project documentation is available inside the `docs/` directory.
+
+- Project Memory
+- Roadmap
+- Architecture
+- Database
+- Changelog
+- Conventions
+
+---
+
+## Installation
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+Run migrations
+
+```bash
+npx prisma migrate dev
+```
+
+Start development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env` file.
 
-## Learn More
+Required variables include:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+DATABASE_URL=
+AUTH_SECRET=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development Philosophy
 
-## Deploy on Vercel
+This project prioritizes:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Clean Architecture
+- Production-ready code
+- Reusable Components
+- Type Safety
+- Scalability
+- Maintainability
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## License
+
+Private project.
