@@ -14,7 +14,7 @@ export default async function HomePage() {
       redirect("/dashboard");
 
     case "TENANT":
-      redirect("/dashboard");
+      redirect("/tenant");
 
     default:
       redirect("/login");

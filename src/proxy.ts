@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
+  const role = req.auth?.user?.role;
 
   const pathname = req.nextUrl.pathname;
 
@@ -18,6 +19,14 @@ export default auth((req) => {
 
   if (isLoggedIn && isAuthPage) {
     return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (isLoggedIn && role === "TENANT" && pathname.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/tenant", req.url));
+  }
+
+  if (isLoggedIn && role === "LANDLORD" && pathname.startsWith("/tenant")) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   return NextResponse.next();

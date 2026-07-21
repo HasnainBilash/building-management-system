@@ -551,14 +551,22 @@ Contains authentication pages.
 
 Contains all authenticated landlord pages.
 
+```
+(tenant)
+```
+
+Contains all authenticated tenant pages. Introduced alongside the Tenant
+Profiles module — deliberately minimal (no sidebar, a single page for now)
+since Tenant-facing features are only just beginning. Future Tenant-facing
+modules (Join Requests, Lease viewing) should add pages under this group,
+not under `(landlord)`.
+
 Additional groups may be introduced later when new user roles exist.
 
 Example
 
 ```
 (admin)
-
-(tenant)
 ```
 
 ---
@@ -589,13 +597,30 @@ Public routes should never require authentication.
 /dashboard
 ```
 
-Everything beneath the dashboard requires authentication.
+Everything beneath the dashboard requires authentication, and is intended
+for the `LANDLORD` role.
+
+```
+/tenant
+```
+
+Everything beneath this requires authentication, and is intended for the
+`TENANT` role.
 
 Authentication is enforced by
 
 ```
 proxy.ts
 ```
+
+`proxy.ts` also enforces role-based guarding between the two areas: a
+`TENANT` session hitting any `/dashboard/*` route is redirected to
+`/tenant`, and a `LANDLORD` session hitting any `/tenant/*` route is
+redirected to `/dashboard`. This is guarding, not authorization at the
+data layer — Server Actions still independently verify ownership/role on
+every mutation, the same as always. The route guard just prevents a
+logged-in user from landing on a confusing empty page meant for the other
+role.
 
 ---
 

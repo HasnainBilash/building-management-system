@@ -26,7 +26,7 @@ main
 
 ## Current Sprint
 
-Sprint 5 — Tenant Profiles
+Sprint 6 — Join Requests
 
 ---
 
@@ -52,6 +52,10 @@ Sprint 5 — Tenant Profiles
 
 ✅ Complete
 
+## Tenant Profiles
+
+✅ Complete
+
 ## Architecture
 
 ✅ Architecture v2.0 (Frozen)
@@ -62,7 +66,7 @@ Sprint 5 — Tenant Profiles
 
 ## Current Development
 
-🚧 Tenant Profiles
+🚧 Join Requests
 
 ---
 
@@ -253,11 +257,24 @@ Architecture v2.0 is considered frozen unless intentionally revised.
 - Lives under `src/actions/quick-setup/`, since it spans Building, Floor,
   and Flat rather than belonging to a single entity
 
+### Tenant Profiles
+
+- Self-service Profile (Occupation, National ID, Emergency Contact)
+- Profile Details (read-only) + Edit pages, matching the Details/Edit split
+  used by every other entity
+- New `(tenant)` route group — minimal layout (header only, no sidebar)
+- Role-based redirect on login: Landlord → `/dashboard`, Tenant → `/tenant`
+  (fixed a pre-existing bug where both roles redirected to `/dashboard`)
+- Role-based route guarding in `proxy.ts`: Tenants blocked from `/dashboard`,
+  Landlords blocked from `/tenant`
+- Server Actions use the `useActionState` + inline-error pattern (matching
+  Login/Register), not the plain-redirect pattern Building/Floor/Flat use —
+  a deliberate choice since duplicate National ID needs to surface inline
+
 ---
 
 # Planned Modules
 
-- Tenant Profiles
 - Join Requests
 - Lease Management
 - Rent Management
@@ -340,7 +357,7 @@ Public
 /register
 ```
 
-Protected
+Protected (Landlord)
 
 ```
 /dashboard
@@ -397,6 +414,20 @@ Protected
 ```
 /dashboard/buildings/[id]/floors/[floorId]/flats/[flatId]/edit
 ```
+
+Protected (Tenant)
+
+```
+/tenant
+```
+
+```
+/tenant/edit
+```
+
+`proxy.ts` enforces this split — a Tenant hitting any `/dashboard/*` route
+is redirected to `/tenant`, and a Landlord hitting `/tenant/*` is redirected
+to `/dashboard`.
 
 Authentication
 
@@ -526,9 +557,14 @@ Correctness is preferred over speed.
 
 # Next Goal
 
-Implement Tenant Profiles following the established architecture.
+Implement Join Requests: a Tenant requests a specific Flat, and the owning
+Landlord approves or rejects it.
 
-Future modules should reuse the same architecture and development patterns introduced by the Building, Floors, and Flats Modules — including baking in breadcrumb and back navigation from the start, rather than retrofitting it afterward.
+Future modules should reuse the same architecture and development patterns
+introduced by the Building, Floors, Flats, and Tenant Profile modules —
+including baking in breadcrumb and back navigation from the start, and
+routing new Tenant-facing pages under the `(tenant)` route group rather
+than `(landlord)`.
 
 ---
 

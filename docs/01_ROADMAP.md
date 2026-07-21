@@ -130,14 +130,17 @@ Features
 
 Status
 
-🚧 Current Sprint
+✅ Completed
 
 Features
 
-- Tenant Profile
-- Contact Information
-- Emergency Contact
-- Profile Status
+- Tenant self-service Profile (Occupation, National ID, Emergency Contact)
+- Tenant-facing route group (`(tenant)`), separate from the Landlord dashboard
+- Role-based redirect on login (Landlord → `/dashboard`, Tenant → `/tenant`)
+- Role-based route guarding (Tenant blocked from `/dashboard`, Landlord
+  blocked from `/tenant`, enforced in `proxy.ts`)
+- Profile Details page (read-only) + Edit page, matching the Details/Edit
+  split used by every other entity in the app
 
 ---
 
@@ -145,7 +148,7 @@ Features
 
 Status
 
-⬜ Planned
+🚧 Current Sprint
 
 Features
 
@@ -310,16 +313,16 @@ A module is considered complete only when all of the above are implemented and d
 
 Current Sprint
 
-🚧 Tenant Profiles
+🚧 Join Requests
 
 Goal
 
-Introduce Tenant Profiles — occupation, national ID, emergency contact — so
-tenant-specific information can be tracked separately from authentication
-data on the User model.
+Let a Tenant request a specific Flat, and let the owning Landlord approve
+or reject that request — the workflow that eventually produces a Lease.
 
-Tenant Profiles should follow the same architecture and conventions
-established by the Building, Floors, and Flats modules.
+Join Requests should follow the same architecture and conventions
+established by the Building, Floors, Flats, and Tenant Profile modules —
+including the Tenant-facing route group introduced this sprint.
 
 ---
 

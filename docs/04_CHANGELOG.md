@@ -10,7 +10,6 @@ The format loosely follows Keep a Changelog while remaining focused on project d
 
 ## Planned
 
-- Tenant Profiles
 - Join Requests
 - Lease Management
 - Rent Management
@@ -19,6 +18,46 @@ The format loosely follows Keep a Changelog while remaining focused on project d
 - Notices
 - Reports
 - Analytics
+
+---
+
+# [v2.3.0] - Tenant Profiles + Tenant-Facing Area
+
+## Added
+
+### Tenant Profiles
+
+- Self-service Profile (Occupation, National ID, Emergency Contact)
+- Profile Details (read-only) page + Edit page, matching the Details/Edit
+  split used by Building, Floor, and Flat
+- Duplicate National ID surfaced as an inline field error, not a crash
+
+---
+
+### Tenant-Facing Area (new)
+
+- New `(tenant)` route group, separate from `(landlord)` — minimal layout
+  (header only, no sidebar), since this sprint's scope is one page, not a
+  full dashboard
+- Role-based redirect on login: `LANDLORD` → `/dashboard`, `TENANT` →
+  `/tenant`
+- **Fixed a pre-existing bug** in `src/app/page.tsx`: the role `switch`
+  already existed, but both `LANDLORD` and `TENANT` cases redirected to
+  `/dashboard` — Tenants had nowhere to go
+- Role-based route guarding added to `proxy.ts`: a Tenant hitting
+  `/dashboard/*` is redirected to `/tenant`, and a Landlord hitting
+  `/tenant/*` is redirected to `/dashboard`
+
+---
+
+### Documentation
+
+Updated
+
+- Project Memory (Sprint 6, new Protected (Tenant) routing section)
+- Roadmap
+- Database (TenantProfile moved from schema-only to schema + application
+  complete)
 
 ---
 

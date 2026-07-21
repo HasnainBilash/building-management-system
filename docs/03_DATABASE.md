@@ -90,17 +90,17 @@ PaymentHistory          (schema only — not yet built)
 
 ```
 
-Additional models (schema only — not yet built)
+Additional models
 
 ```
 
-TenantProfile
+TenantProfile           (schema + application complete)
 
-JoinRequest
+JoinRequest             (schema only — not yet built)
 
-UtilityBill
+UtilityBill             (schema only — not yet built)
 
-Notice
+Notice                  (schema only — not yet built)
 
 ActivityLog
 
