@@ -105,18 +105,22 @@ Features
 
 Status
 
-🚧 Current Sprint
+✅ Completed
 
-Planned Features
+Features
 
 - Flat List
 - Create Flat
+- Bulk Create Flats (numeric range, duplicate-safe)
 - Flat Details
 - Edit Flat
 - Soft Delete
 - Floor Assignment
 - Occupancy Status
 - Rent Information
+- Quick Setup (auto-generate floors + flats for a whole building in one step)
+- Breadcrumb Navigation
+- Back Navigation
 
 ---
 
@@ -126,7 +130,7 @@ Planned Features
 
 Status
 
-⬜ Planned
+🚧 Current Sprint
 
 Features
 
@@ -306,13 +310,16 @@ A module is considered complete only when all of the above are implemented and d
 
 Current Sprint
 
-🚧 Flats Module
+🚧 Tenant Profiles
 
 Goal
 
-Introduce Flats beneath Floors, including occupancy status and rent information, so individual rentable units can be tracked.
+Introduce Tenant Profiles — occupation, national ID, emergency contact — so
+tenant-specific information can be tracked separately from authentication
+data on the User model.
 
-The Flats module should follow the same architecture and conventions established by the Building and Floors modules.
+Tenant Profiles should follow the same architecture and conventions
+established by the Building, Floors, and Flats modules.
 
 ---
 

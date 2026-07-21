@@ -26,7 +26,7 @@ main
 
 ## Current Sprint
 
-Sprint 4 — Flats Module
+Sprint 5 — Tenant Profiles
 
 ---
 
@@ -48,6 +48,10 @@ Sprint 4 — Flats Module
 
 ✅ Complete
 
+## Flats Module
+
+✅ Complete
+
 ## Architecture
 
 ✅ Architecture v2.0 (Frozen)
@@ -58,7 +62,7 @@ Sprint 4 — Flats Module
 
 ## Current Development
 
-🚧 Flats Module
+🚧 Tenant Profiles
 
 ---
 
@@ -220,11 +224,39 @@ Architecture v2.0 is considered frozen unless intentionally revised.
 - Breadcrumb Navigation
 - Back Navigation
 
+### Flats Module
+
+- Create Flat
+- Bulk Create Flats
+- Flat List
+- Flat Details
+- Edit Flat
+- Soft Delete Flat
+- Floor Relationship
+- Ownership Validation (via Floor → Building)
+- Occupancy Status
+- Rent Information
+- Reusable Flat Form
+- Server Actions
+- Prisma Integration
+- Zod Validation
+- Breadcrumb Navigation
+- Back Navigation
+
+### Quick Setup
+
+- Auto-generates a range of Floors and, per Floor, a range of Flats in a
+  single transaction
+- Flats numbered Floor × 100 + unit (e.g. Floor 3 → 301, 302...)
+- Duplicate-safe: existing Floors/Flats are left untouched, gaps are filled
+- Capped at 100 floors / 500 total flats per run
+- Lives under `src/actions/quick-setup/`, since it spans Building, Floor,
+  and Flat rather than belonging to a single entity
+
 ---
 
 # Planned Modules
 
-- Flats
 - Tenant Profiles
 - Join Requests
 - Lease Management
@@ -331,6 +363,10 @@ Protected
 ```
 
 ```
+/dashboard/buildings/[id]/quick-setup
+```
+
+```
 /dashboard/buildings/[id]/floors
 ```
 
@@ -344,6 +380,22 @@ Protected
 
 ```
 /dashboard/buildings/[id]/floors/[floorId]/edit
+```
+
+```
+/dashboard/buildings/[id]/floors/[floorId]/flats
+```
+
+```
+/dashboard/buildings/[id]/floors/[floorId]/flats/new
+```
+
+```
+/dashboard/buildings/[id]/floors/[floorId]/flats/[flatId]
+```
+
+```
+/dashboard/buildings/[id]/floors/[floorId]/flats/[flatId]/edit
 ```
 
 Authentication
@@ -474,9 +526,9 @@ Correctness is preferred over speed.
 
 # Next Goal
 
-Implement the Flats Module following the established architecture.
+Implement Tenant Profiles following the established architecture.
 
-Future modules should reuse the same architecture and development patterns introduced by the Building and Floors Modules.
+Future modules should reuse the same architecture and development patterns introduced by the Building, Floors, and Flats Modules — including baking in breadcrumb and back navigation from the start, rather than retrofitting it afterward.
 
 ---
 

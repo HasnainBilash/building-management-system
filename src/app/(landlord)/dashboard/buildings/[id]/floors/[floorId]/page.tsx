@@ -63,6 +63,10 @@ export default async function FloorDetailsPage({ params }: PageProps) {
         <h1 className="text-3xl font-bold">{floorLabel}</h1>
 
         <div className="flex gap-3">
+          <Link href={`/dashboard/buildings/${id}/floors/${floor.id}/flats`}>
+            <Button variant="outline">Manage Flats</Button>
+          </Link>
+
           <Link
             href={`/dashboard/buildings/${id}/floors/${floor.id}/edit`}
           >
@@ -86,7 +90,12 @@ export default async function FloorDetailsPage({ params }: PageProps) {
 
           <div>
             <p className="text-sm text-muted-foreground">Total Flats</p>
-            <p className="font-semibold">{totalFlats}</p>
+            <Link
+              href={`/dashboard/buildings/${id}/floors/${floor.id}/flats`}
+              className="font-semibold hover:underline"
+            >
+              {totalFlats}
+            </Link>
           </div>
 
           <div>
@@ -114,9 +123,14 @@ export default async function FloorDetailsPage({ params }: PageProps) {
           ) : (
             <div className="flex flex-wrap gap-2">
               {floor.flats.map((flat) => (
-                <Badge key={flat.id} variant="outline">
-                  {flat.flatNumber} · {flat.status}
-                </Badge>
+                <Link
+                  key={flat.id}
+                  href={`/dashboard/buildings/${id}/floors/${floor.id}/flats/${flat.id}`}
+                >
+                  <Badge variant="outline">
+                    {flat.flatNumber} · {flat.status}
+                  </Badge>
+                </Link>
               ))}
 
               {maintenance > 0 && (

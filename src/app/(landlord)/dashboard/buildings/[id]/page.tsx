@@ -56,6 +56,12 @@ export default async function BuildingDetailsPage({
         </div>
 
         <div className="flex gap-3">
+          <Link href={`/dashboard/buildings/${building.id}/quick-setup`}>
+            <Button variant="outline">
+              Quick Setup
+            </Button>
+          </Link>
+
           <Link href={`/dashboard/buildings/${building.id}/floors`}>
             <Button variant="outline">
               Manage Floors

@@ -29,11 +29,6 @@ export function AppSidebar() {
         </Link>
 
         <span className={disabledLinkClass} aria-disabled="true">
-          Flats
-          <span className="text-xs">Soon</span>
-        </span>
-
-        <span className={disabledLinkClass} aria-disabled="true">
           Tenants
           <span className="text-xs">Soon</span>
         </span>

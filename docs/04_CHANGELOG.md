@@ -10,7 +10,6 @@ The format loosely follows Keep a Changelog while remaining focused on project d
 
 ## Planned
 
-- Flats Module
 - Tenant Profiles
 - Join Requests
 - Lease Management
@@ -20,6 +19,60 @@ The format loosely follows Keep a Changelog while remaining focused on project d
 - Notices
 - Reports
 - Analytics
+
+---
+
+# [v2.2.0] - Flats Module + Quick Setup
+
+## Added
+
+### Flats Module
+
+- Create Flat
+- Bulk Create Flats (numeric range, `skipDuplicates` safe — flat numbers are
+  text, so this uses a from/to numeric range rather than the raw field)
+- Flat List (ordered by Flat Number)
+- Flat Details (bedrooms, bathrooms, monthly rent, status)
+- Edit Flat
+- Soft Delete Flat
+- Floor Relationship (ownership validated two hops up: Flat → Floor → Building)
+- Server Action CRUD Architecture, matching the Building and Floors modules
+- Reusable Flat Form (Single / Multiple toggle, shared Create + Bulk Create UI)
+- Breadcrumb + back navigation built in from the start (not retrofitted)
+
+---
+
+### Quick Setup
+
+- New cross-entity action (`src/actions/quick-setup/`) that generates a
+  range of Floors and, per Floor, a range of Flats in a single database
+  transaction
+- Flats auto-numbered Floor × 100 + unit (Floor 3 → 301, 302, ...)
+- Duplicate-safe: re-running it, or running it on a building with existing
+  floors/flats, only fills gaps — nothing is overwritten
+- Capped at 100 floors / 500 total flats per run
+- Linked from Building Details as a dedicated page, separate from the plain
+  Create Building form, so building creation itself stays simple
+
+---
+
+### Navigation
+
+- Removed the dead "Flats" sidebar link — Flats has no top-level list page
+  by design (always accessed via a specific Building → Floor), so a
+  disabled placeholder there was misleading rather than informative
+- Tenants and Payments remain as "Soon" placeholders, since those are
+  plausible future top-level pages
+
+---
+
+### Documentation
+
+Updated
+
+- Project Memory
+- Roadmap
+- Database (Flat moved from schema-only to schema + application complete)
 
 ---
 

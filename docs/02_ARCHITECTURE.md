@@ -307,6 +307,25 @@ building/
     get-buildings.ts
     update-building.ts
     delete-building.ts
+
+floor/
+    create-floor.ts
+    create-floors-bulk.ts
+    get-floor.ts
+    get-floors.ts
+    update-floor.ts
+    delete-floor.ts
+
+flat/
+    create-flat.ts
+    create-flats-bulk.ts
+    get-flat.ts
+    get-flats.ts
+    update-flat.ts
+    delete-flat.ts
+
+quick-setup/
+    quick-setup-building.ts
 ```
 
 As additional modules are introduced, each module receives its own directory.
@@ -328,6 +347,20 @@ lease/
 
 payment/
 ```
+
+---
+
+## Cross-Entity Actions
+
+Most actions belong to a single entity and live in that entity's folder
+(`floor/create-floor.ts` only touches Floor). Some actions genuinely span
+multiple entities in one transaction — `quick-setup/quick-setup-building.ts`
+creates Floors *and* Flats together as one atomic operation.
+
+These get their own top-level folder named after the workflow, not after
+any single entity, so it's clear at a glance that the action doesn't belong
+to — and shouldn't be expected to follow the exact CRUD shape of — a single
+model's folder.
 
 ---
 
@@ -1589,5 +1622,5 @@ The Building Management System follows a modular, feature-oriented architecture 
 - Breadcrumb + back-button navigation on every nested page
 - Documentation-first development
 
-The Building and Floors modules serve as the reference implementation for
-all future modules.
+The Building, Floors, and Flats modules serve as the reference
+implementation for all future modules.

@@ -74,7 +74,7 @@ Floor                   (schema + application complete)
 
 ↓
 
-Flat                    (schema only — not yet built)
+Flat                    (schema + application complete)
 
 ↓
 
